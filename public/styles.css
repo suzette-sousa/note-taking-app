@@ -1,7 +1,56 @@
 body {
-  font-family: sans-serif;
   background: #f2f4f5;
+}
+body, textarea {
+  font-family: sans-serif;
 }
 h1 {
   text-align: center;
+}
+form {
+  max-width: 500px;
+  border-radius: 4px;
+  margin: auto;
+  background-color: #fff;
+  text-align: center;
+}
+form, fieldset {
+  padding: 1rem;
+} 
+input, button, textarea {
+  padding: 15px;
+  font-size: 16px;
+}
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+}
+legend, button {
+  text-transform: uppercase;
+}
+button {
+  -webkit-appearance: none;
+  background-color: #222;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+button:hover {
+  opacity: 0.9;
+}
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+ul {
+  padding: 0;
+}
+.notes-item {
+  list-style: none;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  background-color : #fff;
+  padding: 1rem;
+  border-top: 1px solid #f2f4f5;
 }

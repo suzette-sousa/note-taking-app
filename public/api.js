@@ -7,8 +7,9 @@ function getNotes() {
     document.getElementById("notes").innerHTML = '';
     if(data.length !== 0) {
       var notesCtr = document.createElement("ul");
+      notesCtr.setAttribute("id", "notes-list")
       for(var i in data) {
-        notesCtr.innerHTML +=  '<li class="notes-item">' + data[i].noteContent + '</li>';
+        notesCtr.innerHTML +=  '<li class="notes-item">' + data[i].noteContent + `<button type="button" class="btn-del" name="noteDel" value="${data[i]._id}" onclick="deletePost(event)">x</button></li>`;
       }
       document.getElementById("notes").append(notesCtr);
     } else {
@@ -35,6 +36,29 @@ function newPost(event, post) {
   }
   return fetch('/notes/create', options)
     .then(res => res.json())
-    .then(getNotes())
+    .then(function(data) {
+        var notesList = document.getElementById("notes-list");
+        notesList.innerHTML += '<li class="notes-item">' + data.noteContent + `<button type="button" class="btn-del" name="noteDel" value="${data._id}" onclick="deletePost(event)">x</button></li>`;
+    })
     .then(err => console.log(err))
+}
+
+
+function deletePost(event) {
+  event.preventDefault();
+  var noteIdDel = event.target.value;
+  const options = {
+    method: 'DELETE',
+    headers: new Headers({
+      'Content-Type': 'application/json'
+    }),
+    body: JSON.stringify({
+      noteIdDel: noteIdDel
+    })
+  }
+  const URL = `/notes/${noteIdDel}/delete`;
+  fetch(URL, options)
+  .then(res => res.json())
+  .then(data => console.log(data))
+  .then(event.currentTarget.parentNode.remove())
 }
