@@ -1,0 +1,25 @@
+{
+  "name": "note-taking-app",
+  "version": "1.0.0",
+  "description": "note taking app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suzette-sousa/note-taking-app.git"
+  },
+  "author": "Suzette Sousa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/suzette-sousa/note-taking-app/issues"
+  },
+  "homepage": "https://github.com/suzette-sousa/note-taking-app",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
