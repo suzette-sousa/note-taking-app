@@ -1,17 +1,20 @@
 window.addEventListener("DOMContentLoaded", getNotes());
 
 function getNotes() {
-  fetch(`/notes`)
+  fetch('/notes')
   .then((response) => response.json())
   .then(function(data) {
     document.getElementById("notes").innerHTML = '';
     if(data.length !== 0) {
-      var notesCtr = document.createElement("ul");
-      notesCtr.setAttribute("id", "notes-list")
+      var notesCtr = document.getElementById("notes");
       for(var i in data) {
-        notesCtr.innerHTML +=  '<li class="notes-item">' + data[i].noteContent + `<button type="button" class="btn-del" name="noteDel" value="${data[i]._id}" onclick="deletePost(event)">x</button></li>`;
+        notesCtr.innerHTML +=  
+        '<div class="notes-item">' 
+          + data[i].noteContent +
+          `<button type="button" class="btn-del" name="noteDel" value="${data[i]._id}" onclick="deletePost(event)">x</button>
+          <button type="button" class="btn-edit" name="noteEdit" value="${data[i]._id}" onclick="editPost(event)">Editer</button>
+        </div>`;
       }
-      document.getElementById("notes").append(notesCtr);
     } else {
       document.getElementById("notes").append("Vous n'avez pas de notes.");
     }
@@ -36,13 +39,18 @@ function newPost(event, post) {
   }
   return fetch('/notes/create', options)
     .then(res => res.json())
-    .then(function(data) {
-        var notesList = document.getElementById("notes-list");
-        notesList.innerHTML += '<li class="notes-item">' + data.noteContent + `<button type="button" class="btn-del" name="noteDel" value="${data._id}" onclick="deletePost(event)">x</button></li>`;
-    })
-    .then(err => console.log(err))
+    .then(getNotes())
+    .then(function(err) {
+      console.log(err)
+        if(err.message) {
+          var errorMsg = document.getElementById("error");
+          errorMsg.innerHTML = "Erreur dans la saisie de votre nouvelle note";
+          console.log(err.message)
+        } else {
+          location.reload()
+        }
+      })
 }
-
 
 function deletePost(event) {
   event.preventDefault();
@@ -59,6 +67,6 @@ function deletePost(event) {
   const URL = `/notes/${noteIdDel}/delete`;
   fetch(URL, options)
   .then(res => res.json())
-  .then(data => console.log(data))
   .then(event.currentTarget.parentNode.remove())
+  .then(location.reload())
 }

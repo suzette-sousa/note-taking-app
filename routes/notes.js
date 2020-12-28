@@ -23,7 +23,7 @@ router.post('/create', async (req, res) => {
     const newNote = await notes.save();
     res.status(201).json(newNote);
   } catch(err) {
-    res.status(400).json({message: err.message});
+    res.status(400).json({message: 'Veuillez saisir ou saisir de nouveau votre note.'});
   }
 });
 
