@@ -7,11 +7,20 @@
   </head>
   <body>
     <h1>Bloc-notes</h1>
-    <form id="form_post" class="note-form-create">
-      <label for="noteContent">Créer une note ci-dessous</label>
-      <textarea id="noteContent" type="text" name="noteContent" placeholder="Note"></textarea>
-      <button id="postButton" name="postButton" type="submit" class="btn-submit">Créer</button>
-    </form>
+    <div class="forms-ctr">
+      <form id="form_post" class="form note-form-create">
+        <label for="noteContent">Créer une note</label>
+        <textarea id="noteContent" type="text" name="noteContent" placeholder="Note"></textarea>
+        <button id="postButton" name="postButton" type="submit" class="btn-submit btn-submit-default">Créer</button>
+      </form>
+      <form id="form_search" class="note-form-search">
+        <label for="noteSearch">Rechercher une note</label>
+        <div class="form-ctr-inline">
+          <input id="noteSearch" type="text" name="noteSearch" placeholder="Note" />
+          <button id="searchButton" name="searchButton" type="submit" class="btn-submit">Rechercher</button>
+        </div>
+      </form>
+    </div>
     <div id="error" class="msg--error"></div>
     <div id="notes" class="notes-ctr"></div>
   </body>

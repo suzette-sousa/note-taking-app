@@ -4,7 +4,7 @@ const Note = require('../models/notes');
 
 router.get('/', async (req, res) => {
   try {
-    const notes = await Note.find();
+    const notes = await Note.find().sort({noteDate: 'descending'});
     res.json(notes);
   } catch(err) {
     res.status(500).json({message: err.message});
@@ -46,7 +46,21 @@ router.patch('/:id/edit', getNote, async (req, res) => {
   } catch(err) {
     res.status(400).json({message: err.message});
   }
-})
+});
+
+router.get('/search/:key', async (req,res) => {
+  let note;
+  try {
+    const regex = new RegExp(req.params.key, 'i');
+    note = await Note.find({noteContent: regex});
+    res.send(note)
+    if(note == null) {
+      res.status(404).json({message: "Aucun résultat"})
+    }
+  } catch(err) {
+    res.status(500).json({message: 'Note non trouvée'});
+  }
+});
 
 async function getNote(req, res, next) {
   let note;
