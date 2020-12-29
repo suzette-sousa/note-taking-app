@@ -9,11 +9,21 @@ function getNotes() {
       var notesCtr = document.getElementById("notes");
       for(var i in data) {
         notesCtr.innerHTML +=  
-        '<div class="notes-item">' 
-          + data[i].noteContent +
-          `<button type="button" class="btn-del" name="noteDel" value="${data[i]._id}" onclick="deletePost(event)">x</button>
-          <button type="button" class="btn-edit" name="noteEdit" value="${data[i]._id}" onclick="editPost(event)">Editer</button>
-        </div>`;
+          `<div class="notes-item-ctr">
+            <div class="notes-item">
+              <span class="notes-content">${data[i].noteContent}</span>
+              <button type="button" class="btn-edit" name="noteEdit" value="${data[i]._id}" onclick="displayEditPost(event)">Editer</button>
+              <button type="button" class="btn-del" name="noteDel" value="${data[i]._id}" onclick="deletePost(event)">Supprimer</button>
+            </div>
+            <form class="notes-form-edit" onsubmit="editPost(event)" hidden>
+              <label for="noteContent-${data[i]._id}">Editer la note ci-dessous</label>
+              <textarea id="noteContent-${data[i]._id}" name="noteContent" placeholder="Modifier la note">${data[i].noteContent}</textarea>
+              <label for="noteId-${data[i]._id}" class="hidden">Note Id</label>
+              <input id="noteId-${data[i]._id}" type="text" name="noteId" value="${data[i]._id}" placeholder="note id" class="hidden" />
+              <button type="submit" class="btn-submit">Modifier</button>
+            </form>
+          </div>
+        `;
       }
     } else {
       document.getElementById("notes").append("Vous n'avez pas de notes.");
@@ -21,7 +31,7 @@ function getNotes() {
   })
 }
 
-var postButton = document.getElementById('user_form_post');
+var postButton = document.getElementById('form_post');
 postButton.addEventListener('submit', newPost);
 
 function newPost(event, post) {
@@ -69,4 +79,42 @@ function deletePost(event) {
   .then(res => res.json())
   .then(event.currentTarget.parentNode.remove())
   .then(location.reload())
+}
+
+function displayEditPost(event) {
+  const currentTarget = event.currentTarget;
+  const postFormEdit = currentTarget.closest(".notes-item-ctr").querySelector(".notes-form-edit");
+  if (postFormEdit.hidden === true) {
+    postFormEdit.hidden = false;
+  } else {
+    postFormEdit.hidden = true;
+  }
+}
+
+function editPost(event) {
+  event.preventDefault();
+  var noteId = event.target.noteId.value;
+  var noteContent = event.target.noteContent.value;
+  post = {
+    noteContent: noteContent
+  }
+  const options = {
+    method: 'PATCH',
+    body: JSON.stringify(post),
+    headers: new Headers({
+      'Content-Type': 'application/json'
+    })
+  }
+  const URL = `/notes/${noteId}/edit`;
+  const currentTarget = event.currentTarget;
+  return fetch(URL, options)
+  .then(res => res.json())
+  .then(data => {
+    let noteContent = data.updatedNote.noteContent
+    return noteContent
+  })
+  .then(noteContent => {
+    currentTarget.closest(".notes-item-ctr").querySelector(".notes-content").innerHTML = noteContent;
+    currentTarget.hidden = true;
+  })
 }

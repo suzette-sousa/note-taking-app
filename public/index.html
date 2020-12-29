@@ -7,16 +7,13 @@
   </head>
   <body>
     <h1>Bloc-notes</h1>
-    <form id="user_form_post">
-      <fieldset>
-        <legend>Créer une note</legend>
-        <label for="noteContent">Rédiger votre note ci-dessous</label>
-        <textarea id="noteContent" type="text" name="noteContent" placeholder="Note"></textarea><br />
-        <button id="postButton" name="postButton" type="submit">Créer</button>
-      </fieldset>
+    <form id="form_post" class="note-form-create">
+      <label for="noteContent">Créer une note ci-dessous</label>
+      <textarea id="noteContent" type="text" name="noteContent" placeholder="Note"></textarea>
+      <button id="postButton" name="postButton" type="submit" class="btn-submit">Créer</button>
     </form>
-    <div id="error"></div>
-    <div id="notes"></div>
+    <div id="error" class="msg--error"></div>
+    <div id="notes" class="notes-ctr"></div>
   </body>
   <script src="./api.js"></script>
 </html>
