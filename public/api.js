@@ -12,8 +12,10 @@ function getNotes() {
           `<div class="notes-item-ctr">
             <div class="notes-item">
               <span class="notes-content">${data[i].noteContent}</span>
-              <button type="button" class="btn-edit" name="noteEdit" value="${data[i]._id}" onclick="displayEditPost(event)">Editer</button>
-              <button type="button" class="btn-del" name="noteDel" value="${data[i]._id}" onclick="deletePost(event)">Supprimer</button>
+              <div class="notes-item-btns">
+                <button type="button" class="btn-edit" name="noteEdit" value="${data[i]._id}" onclick="displayEditPost(event)">Editer</button>
+                <button type="button" class="btn-del" name="noteDel" value="${data[i]._id}" onclick="deletePost(event)">Supprimer</button>
+              </div>
             </div>
             <form class="notes-form-edit" onsubmit="editPost(event)" hidden>
               <label for="noteContent-${data[i]._id}">Editer la note ci-dessous</label>
